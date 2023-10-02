@@ -1,6 +1,24 @@
 name: benchmark
 on:
   workflow_dispatch:
+    inputs:
+      n_primes:
+        description: 'Max number of primes to generate'
+        default: '10000'
+        required: true
+      segments:
+        description: 'Segments to be bucketed'
+        default: '10'
+        required: true
+      language:
+        description: 'Choose from below'
+        default: 'all'
+        required: true
+        type: choice
+        options:
+          - all
+          - python
+          - rust
 
 jobs:
   python_benchmark:
@@ -14,7 +32,7 @@ jobs:
       
       - name: Run all
         run: |
-          chmod +x run.sh && ./run.sh 10000 10
+          chmod +x run.sh && ./run.sh all ${{ inputs.n_primes }} ${{ inputs.segments }}
       
       - name: Echo results
         run: |
