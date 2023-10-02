@@ -10,15 +10,6 @@ on:
         description: 'Segments to be bucketed'
         default: '10'
         required: true
-      language:
-        description: 'Choose from below'
-        default: 'all'
-        required: true
-        type: choice
-        options:
-          - all
-          - python
-          - rust
 
 jobs:
   python_benchmark:
@@ -36,7 +27,7 @@ jobs:
       
       - name: Echo results
         run: |
-          cat benchmark_python && cat benchmark_rust
+          echo "Python Results" && cat benchmark_python && echo -e "\n\n" && echo "Rust Results" && cat benchmark_rust
       
       
       
