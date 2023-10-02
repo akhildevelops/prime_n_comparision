@@ -2,6 +2,8 @@
 import sys
 import time
 import math
+
+
 def is_prime(n:int)->bool:
     if n<2:
         return False
@@ -21,9 +23,10 @@ def gen_primes(gen:int):
         n+=1
     return p
 
-def main(cum:int):
+def main(cum:int,n_segs:int):
     n_time=[]
-    for i in range(1,cum+1):
+    step = cum//n_segs
+    for i in range(1,cum+step+1,step):
         start = time.perf_counter_ns()
         last_p = gen_primes(i)
         end = time.perf_counter_ns()
@@ -34,4 +37,5 @@ def main(cum:int):
         file.writelines(n_time)
 
 if __name__=="__main__":
-    main(4500)
+    print(sys.argv)
+    main(int(sys.argv[1]),int(sys.argv[2]))

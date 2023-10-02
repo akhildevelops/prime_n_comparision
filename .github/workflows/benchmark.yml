@@ -1,0 +1,24 @@
+name: benchmark
+on:
+  workflow_dispatch:
+
+jobs:
+  python_benchmark:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Run all
+        run: |
+          chmod +x run.sh && ./run.sh 10000 10
+      
+      - name: Echo results
+        run: |
+          cat benchmark_python && cat benchmark_rust
+      
+      
+      

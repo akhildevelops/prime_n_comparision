@@ -1,36 +1,6 @@
-// import time
-// import math
-// def is_prime(n:int)->bool:
-//     if n<2:
-//         return False
-//     for i in range(2,n//2+1):
-//         if n%i==0:
-//             return False
-//     return True
-
-// def gen_primes(gen:int):
-//     counter=0
-//     n=0
-//     while counter<gen:
-//         if is_prime(n):
-//             counter+=1
-//         n+=1
-
-// def main(cum:int):
-//     n_time=[]
-//     for i in range(cum):
-//         start = time.perf_counter_ns()
-//         gen_primes(i)
-//         end = time.perf_counter_ns()
-//         n_time.append(f"{i},{math.log10(end-start)}\n")
-//     with open("./benchmark_python","w") as file:
-//         file.writelines(n_time)
-
-// if __name__=="__main__":
-//     main(1000)
 use std::time::Instant;
-// use std::
-fn is_prime(n:u16)->bool{
+use std::env;
+fn is_prime(n:u32)->bool{
     if n<2{
         return false
     }
@@ -42,7 +12,7 @@ fn is_prime(n:u16)->bool{
     true
 }
 
-fn gen_primes(gen:u16)->Option<u16>{
+fn gen_primes(gen:u32)->Option<u32>{
     let mut counter=0;
     let mut n=0;
     let mut last_p = None;
@@ -56,13 +26,16 @@ fn gen_primes(gen:u16)->Option<u16>{
     last_p
 }
 
-const N:usize=4500;
 fn main() {
+    let mut args = env::args();
+    args.next().unwrap();
+    let n = args.next().unwrap().parse::<usize>().unwrap();
+    let buckets = args.next().unwrap().parse::<usize>().unwrap();
     let mut n_time:Vec<String>=vec![];
-    for i in 1..N+1{
-        let last_p:Option<u16>;
+    for i in (1..n+n/buckets+1).step_by((n/buckets).into()){
+        let last_p:Option<u32>;
         let start = Instant::now();
-        last_p = gen_primes(i as u16);
+        last_p = gen_primes(i as u32);
         let dur = Instant::now()-start;
         let val = last_p.map_or("None".to_string(), |x| format!("{}",x));
         let op = format!("{},{},{}",i,val,(dur.as_nanos() as f32).log10());
