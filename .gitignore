@@ -19,3 +19,4 @@ Cargo.lock
 /target
 
 benchmark_*
+1m.csv
