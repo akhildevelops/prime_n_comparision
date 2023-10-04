@@ -27,9 +27,10 @@ def load_primes(file:str)->Dict[str,str]:
     return primes
 
 def main():
+    benchmark_lang = sys.argv[1] if len(sys.argv)>1 else None
     benchmark_pattern = "benchmark_"
     unzip("./1m.csv.zip")
-    benchmark_files = get_all_benchmark_files(benchmark_pattern)
+    benchmark_files = (benchmark_lang and [f"{benchmark_pattern}{benchmark_lang}"]) or get_all_benchmark_files(benchmark_pattern)
     one_m_primes = load_primes("./1m.csv")
     for file in benchmark_files:
         is_valid=True

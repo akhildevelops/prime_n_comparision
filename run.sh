@@ -11,19 +11,28 @@ run_python(){
     python3 ./prime_n.py $NPrimes $NSegs
 }
 
+check_op(){
+  python3 ./valid.py $1
+}
+
 case $1 in
   "python")
-  run_python 
+  echo "Running Python"
+  run_python
+  check_op "python"
   ;;
 
   "rust")
+  echo "Running Rust"
   run_rust
+  check_op "rust"
   ;;
 
   "all")
-  echo "Running both in parallel"
+  echo "Running Python and Rust in parallel"
   run_python &> /dev/null &
   run_rust &> /dev/null &
   wait
+  check_op
   ;;
 esac
