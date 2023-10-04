@@ -22,7 +22,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       
       - name: Install matplolib
-        uses: python3 -m pip install matplotlib
+        run: |
+          python3 -m pip install matplotlib
       
       - name: Run all
         run: |
