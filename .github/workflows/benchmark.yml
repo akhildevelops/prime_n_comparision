@@ -1,4 +1,6 @@
 name: benchmark
+permissions:
+  contents: write
 on:
   workflow_dispatch:
     inputs:
