@@ -2,7 +2,7 @@
 import sys
 import time
 import math
-
+from typing import Callable
 
 def is_prime(n:int)->bool:
     if n<2:
@@ -12,27 +12,22 @@ def is_prime(n:int)->bool:
             return False
     return True
 
-def gen_primes(gen:int):
+def gen_primes(gen:int,callback:Callable[[int,int,int],None]):
     counter=0
     n=0
-    p=None
-    while counter<gen:
+    while counter<=gen:
         if is_prime(n):
-            p=n
             counter+=1
+            callback(counter,n,time.perf_counter_ns())
         n+=1
-    return p
 
-def main(cum:int,n_segs:int):
+
+
+def main(cum:int,width:int):
     n_time=[]
-    step = cum//n_segs
-    for i in range(1,cum+step+1,step):
-        start = time.perf_counter_ns()
-        last_p = gen_primes(i)
-        end = time.perf_counter_ns()
-        op = f"{i},{last_p},{math.log10(end-start)}\n"
-        print(op,end="")
-        n_time.append(op)
+    start = time.perf_counter_ns()
+    callable = lambda counter,prime_val,end: counter%width or n_time.append(f"{counter},{prime_val},{math.log10(end-start)}\n")
+    gen_primes(cum,callable)
     with open("./benchmark_python","w") as file:
         file.writelines(n_time)
 
