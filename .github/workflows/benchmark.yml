@@ -29,5 +29,11 @@ jobs:
         run: |
           echo "Python Results" && cat benchmark_python && echo -e "\n\n" && echo "Rust Results" && cat benchmark_rust
       
+      - name: Merge generated image
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'output.jpg'
+          message: 'benchmark image'
+          
       
       
