@@ -36,7 +36,8 @@ fn main() {
     let start = Instant::now();
     gen_primes(n as u32,|counter:u32,prime_val:u32,end_time:Instant|{
         if counter%buckets ==0 || counter==n{
-        n_time.borrow_mut().push(format!("{},{},{}",counter,prime_val,((end_time-start).as_nanos() as f32).log10()))
+        let f_str = format!("{},{},{}",counter,prime_val,((end_time-start).as_nanos() as f32).log10());
+        n_time.borrow_mut().push(f_str);
         }
     });
     std::fs::write("./benchmark_rust",n_time.borrow_mut().join("\n")).unwrap();
