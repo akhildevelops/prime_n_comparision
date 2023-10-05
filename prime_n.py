@@ -26,7 +26,7 @@ def main(cum:int,width:int):
     n_time=[]
     start = time.perf_counter_ns()
     def prime_callback(counter:int,prime_val:int,end_time:int):
-        f_str = f"{counter},{prime_val},{math.log10(end_time-start)}\n"
+        f_str = f"{counter},{prime_val},{end_time-start}\n"
         if not counter%width:
             n_time.append(f_str)
     gen_primes(cum,prime_callback)
