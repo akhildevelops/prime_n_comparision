@@ -6,3 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+libc = "0.2.149"
+num-iter = "0.1.43"
+
+[profile.release]
+debug = true
+opt-level = 3

@@ -4,7 +4,7 @@ fn is_prime(n: u32) bool {
     if (n == 2) {
         return true;
     }
-    if (n < 2 or n % 2 == 0) {
+    if (n == 1 or n % 2 == 0) {
         return false;
     }
     var sqrt = std.math.sqrt(n);
@@ -23,7 +23,7 @@ fn gen_primes(n_primes: u32, callback_s: anytype) !void {
     while (counter < n_primes) : (n += 1) {
         if (is_prime(n)) {
             counter += 1;
-            try callback_s.callback(counter, n, std.time.Instant.now() catch unreachable);
+            try callback_s.callback(counter, n);
         }
     }
 }
@@ -33,8 +33,9 @@ const PrimeContext = struct {
     start_time: *const std.time.Instant,
     buffered_writer: *std.io.BufferedWriter(4096, std.fs.File.Writer),
 
-    pub fn callback(self: @This(), nth_prime: u32, prime_val: u32, end_time: std.time.Instant) !void {
+    pub fn callback(self: @This(), nth_prime: u32, prime_val: u32) !void {
         if (nth_prime % self.width == 0) {
+            var end_time = std.time.Instant.now() catch unreachable;
             try std.fmt.format(self.buffered_writer.writer(), "{},{},{}\n", .{ nth_prime, prime_val, end_time.since(self.start_time.*) });
         }
     }
