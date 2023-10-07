@@ -9,7 +9,7 @@ fn is_prime(n: u32) -> bool {
         return false;
     } else {
         let sqrt = (n as f32).sqrt() as u32;
-        num_iter::range_step(3, sqrt, 2).any(|i| n % i == 0)
+        num_iter::range_step_inclusive(3, sqrt, 2).any(|i| n % i == 0)
     }
 }
 
