@@ -11,6 +11,13 @@ run_python(){
     python3 ./prime_n.py $NPrimes $NSegs
 }
 
+run_zig(){
+  cd ./zig
+  zig build-exe -lc -O ReleaseFast prime.zig
+  ./prime $NPrimes $NSegs
+  cd ..
+}
+
 check_op(){
   python3 ./valid.py $1
 }
@@ -28,10 +35,17 @@ case $1 in
   check_op "rust"
   ;;
 
+  "zig")
+  echo "Running zig"
+  run_zig
+  check_op "zig"
+  ;;
+
   "all")
-  echo "Running Python and Rust in parallel"
+  echo "Running Python, Rust, Zig in parallel"
   run_python &> /dev/null &
   run_rust &> /dev/null &
+  run_zig &> /dev/null &
   wait
   check_op
   ;;

@@ -22,6 +22,9 @@ jobs:
       
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Zig
+        uses: goto-bus-stop/setup-zig@v2
       
       - name: Install matplolib
         run: |
@@ -30,10 +33,6 @@ jobs:
       - name: Run all
         run: |
           chmod +x run.sh && ./run.sh all ${{ inputs.n_primes }} ${{ inputs.segments }}
-      
-      - name: Echo results
-        run: |
-          echo "Python Results" && cat benchmark_python && echo -e "\n\n" && echo "Rust Results" && cat benchmark_rust
       
       - name: Merge generated image
         uses: EndBug/add-and-commit@v9
