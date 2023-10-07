@@ -1,21 +1,19 @@
 use std::time::Instant;
 use std::env;
-use std::rc::Rc;
-use std::cell::RefCell;
+use std::io::{BufWriter, Write};
 fn is_prime(n:u32)->bool{
-    if n<2{
+    if n==2{
+        return true;
+    }else if n<2 || n%2==0{
         return false
+    } else{
+    let sqrt = (n as f32).sqrt() as u32;
+    !(3..=sqrt).step_by(2).any(|i| n%i==0)
     }
-    for i in 2..n/2+1 {
-        if n%i==0{
-            return false
-        }
-    }
-    true
 }
 
-fn gen_primes<F>(gen:u32,callback:F)
-where F:FnOnce(u32,u32,Instant)+Copy{
+fn gen_primes<F>(gen:u32,mut callback:F)
+where F:FnMut(u32,u32,Instant){
     let mut counter=0;
     let mut n=0;
     while counter<gen {
@@ -30,15 +28,15 @@ where F:FnOnce(u32,u32,Instant)+Copy{
 fn main() {
     let mut args = env::args();
     args.next().unwrap();
-    let n = args.next().unwrap().parse::<usize>().unwrap() as u32;
-    let buckets = args.next().unwrap().parse::<usize>().unwrap() as u32;
-    let n_time:Rc<RefCell<Vec<String>>>=Rc::new(RefCell::new(vec![]));
+    let mut file_writer = BufWriter::new(std::fs::File::options().create(true).write(true).truncate(true).open("./benchmark_rust").unwrap());
+    let n = args.next().unwrap().parse::<u32>().unwrap();
+    let buckets = args.next().unwrap().parse::<u32>().unwrap();
     let start = Instant::now();
     gen_primes(n as u32,|counter:u32,prime_val:u32,end_time:Instant|{
         if counter%buckets ==0 || counter==n{
-        let f_str = format!("{},{},{}",counter,prime_val,(end_time-start).as_nanos());
-        n_time.borrow_mut().push(f_str);
+        let f_str = format!("{},{},{}\n",counter,prime_val,(end_time-start).as_nanos());
+        file_writer.write(f_str.as_bytes()).unwrap();
         }
     });
-    std::fs::write("./benchmark_rust",n_time.borrow_mut().join("\n")).unwrap();
+    file_writer.flush().unwrap();
 }
