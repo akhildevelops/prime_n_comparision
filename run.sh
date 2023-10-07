@@ -11,6 +11,13 @@ run_python(){
     python3 ./prime_n.py $NPrimes $NSegs
 }
 
+run_zig(){
+  cd ./zig
+  zig build-exe -lc -O ReleaseFast main.zig
+  ./prime $NPrimes $NSegs
+  cd ..
+}
+
 check_op(){
   python3 ./valid.py $1
 }
@@ -26,6 +33,12 @@ case $1 in
   echo "Running Rust"
   run_rust
   check_op "rust"
+  ;;
+
+  "zig")
+  echo "Running zig"
+  run_zig
+  check_op "zig"
   ;;
 
   "all")
