@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'prime_n_comparision'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=prime_n_comparision",
+                    "--package=prime_n_comparision"
+                ],
+                "filter": {
+                    "name": "prime_n_comparision",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "100",
+                "5"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'prime_n_comparision'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=prime_n_comparision",
+                    "--package=prime_n_comparision"
+                ],
+                "filter": {
+                    "name": "prime_n_comparision",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

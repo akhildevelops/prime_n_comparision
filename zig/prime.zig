@@ -7,7 +7,7 @@ fn is_prime(n: u32) bool {
     if (n == 1 or n % 2 == 0) {
         return false;
     }
-    var sqrt = std.math.sqrt(n);
+    const sqrt = std.math.sqrt(n);
     var init: u32 = 3;
     while (init <= sqrt) : (init += 2) {
         if (n % init == 0) {

@@ -3,13 +3,21 @@ use std::io::{BufWriter, Write};
 use std::time::Instant;
 
 fn is_prime(n: u32) -> bool {
-    if n == 2 {
-        return true;
-    } else if n == 1 || n % 2 == 0 {
-        return false;
+    if n < 2 {
+        false
+    } else if n < 4 {
+        true
     } else {
-        let sqrt = (n as f32).sqrt() as u32;
-        num_iter::range_step_inclusive(3, sqrt, 2).any(|i| n % i == 0)
+        for i in 2..u32::MAX {
+            if i * i <= n {
+                if n % i == 0 {
+                    return false;
+                };
+            } else {
+                break;
+            }
+        }
+        true
     }
 }
 
@@ -50,7 +58,7 @@ fn main() {
                 "{},{},{}\n",
                 counter,
                 prime_val,
-                (end_time-start).as_nanos()
+                (end_time - start).as_nanos()
             )
             .unwrap();
         }
