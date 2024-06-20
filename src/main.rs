@@ -8,16 +8,8 @@ fn is_prime(n: u32) -> bool {
     } else if n < 4 {
         true
     } else {
-        for i in 2..u32::MAX {
-            if i * i <= n {
-                if n % i == 0 {
-                    return false;
-                };
-            } else {
-                break;
-            }
-        }
-        true
+        let factor = (n as f32).sqrt() as u32;
+        !(2..factor + 1).any(|x| n % x == 0)
     }
 }
 
