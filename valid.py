@@ -72,11 +72,12 @@ def main():
         
         n_th_prime_time.append((lang, b_primes_items[-1][0],b_primes_items[-1][1][1]))
         X = list(map(lambda x: x[0],b_primes_items))
-        Y = list(map(lambda x: math.log10(x[1][1])
-                     ,b_primes_items))
+        Y = list(map(lambda x: x[1][1],b_primes_items))
         plt.xticks(rotation = 25)
-        plt.ylabel("Time(ns) is log scaled. Consider 10^x for actual time(ns) taken.")
-        plt.xlabel("No: of Primes generated")
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.ylabel("Time(ns)")
+        plt.xlabel("No. of Primes generated")
         plt.plot(X,Y,label=lang)
 
     readme_content = add_table_readme_content(n_th_prime_time)

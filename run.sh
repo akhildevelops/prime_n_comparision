@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NPrimes=${2:-1000}
+NPrimes=${2:-300000}
 NSegs=${3:-5}
 
 run_rust(){
